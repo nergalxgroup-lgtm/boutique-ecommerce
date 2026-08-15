@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   // Échec : on remet le stock (la réservation avait été faite à la création)
   const lignes = await prisma.ligneCommande.findMany({ where: { commandeId: commande.id } });
   await Promise.all(
-    lignes.map((l) =>
+    lignes.map((l: (typeof lignes)[number]) =>
       prisma.variante.update({
         where: { id: l.varianteId },
         data: { stock: { increment: l.quantite } },

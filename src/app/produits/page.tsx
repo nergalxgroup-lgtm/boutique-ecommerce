@@ -49,7 +49,7 @@ export default async function ProduitsPage({
         </p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-          {produits.map((p) => (
+          {produits.map((p: (typeof produits)[number]) => (
             <ProductCard
               key={p.id}
               slug={p.slug}

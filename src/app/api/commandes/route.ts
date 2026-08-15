@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   });
 
   for (const ligne of lignes) {
-    const variante = variantes.find((v) => v.id === ligne.varianteId);
+    const variante = variantes.find((v: (typeof variantes)[number]) => v.id === ligne.varianteId);
     if (!variante) {
       return NextResponse.json({ error: "Variante introuvable" }, { status: 400 });
     }
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
   }
 
   const sousTotal = lignes.reduce((sum, l) => {
-    const v = variantes.find((x) => x.id === l.varianteId)!;
+    const v = variantes.find((x: (typeof variantes)[number]) => x.id === l.varianteId)!;
     const prix = Number(v.produit.prixPromo ?? v.produit.prix);
     return sum + prix * l.quantite;
   }, 0);
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
   const commande = await prisma.commande.create({
     data: {
       numero,
-      userId: session.user.id as string,
+      userId: (session.user as any).id as string,
       sousTotal,
       fraisLivraison,
       total,
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
       adresseLivraison,
       lignes: {
         create: lignes.map((l) => {
-          const v = variantes.find((x) => x.id === l.varianteId)!;
+          const v = variantes.find((x: (typeof variantes)[number]) => x.id === l.varianteId)!;
           return {
             produitId: l.produitId,
             varianteId: l.varianteId,

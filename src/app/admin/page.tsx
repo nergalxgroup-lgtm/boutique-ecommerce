@@ -35,7 +35,7 @@ export default async function AdminDashboard() {
           </tr>
         </thead>
         <tbody>
-          {ventesRecentes.map((c) => (
+          {ventesRecentes.map((c: (typeof ventesRecentes)[number]) => (
             <tr key={c.id} className="border-b">
               <td className="py-2">{c.numero}</td>
               <td>{c.user.nom}</td>
